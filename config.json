@@ -1,0 +1,6 @@
+{
+	"domain":"localhost",
+	"redisHost":"localhost",
+	"redisPort":"3000",
+	"redisPassword":"redisPassword"
+}
