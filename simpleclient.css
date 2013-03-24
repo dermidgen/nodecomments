@@ -1,3 +1,11 @@
 /*
 Let there be style 
 */
+
+div#nodecomments{
+	border:1px solid black;
+}
+button[class=nodecomments],textarea[class=nodecomments],input[class=nodecomments]{
+	font-size:20px;
+}
+.nodeCommentsError{ background-color:Red; color:White; }
