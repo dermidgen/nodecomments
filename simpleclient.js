@@ -158,14 +158,16 @@ var NodeComments = {
 			var PlaceHolderT = "New Topic Title";
 			var PlaceHolderB = "New Topic Body";
 			var doAction = "NewTopic";
+			var ButtonText = 'Post Topic';
 			html({ID:"newTopicTitle",Type:"input",Class:"nodecomments",Attributes:{placeholder:PlaceHolderT},AppendTo:'newTopicContainer'})
 		} else {
 			var doAction = "NewResponse";
 			var PlaceHolderB = "New Response Body";
+			var ButtonText = 'Reply';
 			html({ID:"newTopicTopicID",Type:"input",Class:"nodecomments",Attributes:{type:"hidden",value:TopicID},AppendTo:'newTopicContainer'})
 		}
 		html({ID:"newTopicBody",Type:"textarea",Class:"nodecomments",Attributes:{placeholder:PlaceHolderB},AppendTo:'newTopicContainer'})
-		html({ID:"newTopicSend",Type:"button",Class:"nodecomments",Text:"Reply",AppendTo:"newTopicContainer",Click:function(){
+		html({ID:"newTopicSend",Type:"button",Class:"nodecomments",Text:ButtonText,AppendTo:"newTopicContainer",Click:function(){
 			var Title = getValue("newTopicTitle"),
 			Body = getValue('newTopicBody');
 			if(Body){
