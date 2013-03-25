@@ -1,0 +1,40 @@
+{
+  "name": "nodecomments",
+  "description": "Library implementing a threaded comment/messaging interface on top of redis.",
+  "keywords": [
+    "websocket",
+    "websockets",
+    "socket",
+    "networking",
+    "messaging",
+    "comments",
+    "push",
+    "discussion",
+    "chat"
+  ],
+  "author": {
+    "name": "Dan Willams",
+    "email": "pleaseshutup@gmail.com",
+    "url": "http://github.com/pleaseshutup"
+  },
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pleaseshutup/nodecomments.git"
+  },
+  "engines": {
+    "node": ">=0.6.10"
+  },
+  "config": {
+    "verbose": false
+  },
+  "_id": "nodecomments@0.0.1",
+  "dependencies": {
+    "redis":"0.8.2"
+  },
+  "_engineSupported": true,
+  "_npmVersion": "1.1.4",
+  "_nodeVersion": "v0.6.12",
+  "_defaultsLoaded": true,
+  "_from": "nodecomments"
+}
