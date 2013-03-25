@@ -3,9 +3,40 @@ Let there be style
 */
 
 div#nodecomments{
-	border:1px solid black;
+	position:relative;
+	min-height:500px;
 }
-button[class=nodecomments],textarea[class=nodecomments],input[class=nodecomments]{
-	font-size:20px;
+textarea[class=nodecomments],input[class=nodecomments]{
+	display:block;
+}
+button[class=nodecomments]{
+
 }
 .nodeCommentsError{ background-color:Red; color:White; }
+
+.nodeCommentsEvents{
+	position:absolute;
+	right:0;
+	bottom:0;
+	width:200px;
+	height:400px;
+	overflow-y:auto;
+	overflow-x:hidden;
+}
+article[class=nodecomments]{
+	cursor:pointer;
+}
+article[class=nodecomments]:hover{
+	background-color:#ccc;
+}
+header[class=nodecomments]{
+	font-size:1.5em;
+}
+section[class=nodecomments]{
+	font-size:1.2em;
+	border-bottom:1px solid #ccc;
+}
+.nodecommentsdetails{
+	font-size:.8em;
+	color:#666;
+}

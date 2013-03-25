@@ -12,7 +12,7 @@ http = require('http');
 
 var SimpleClient = fs.readFileSync('simpleclient.js','utf8');
 var SimpleClientCSS = fs.readFileSync('simpleclient.css','utf8');
-var SimplePage = '<html><head><script>'+SimpleClient+'</script><style>'+SimpleClientCSS+'</style><body><div id="nodecomments">Loading NodeComments</div></body></html>';
+var SimplePage = '<html><head><title>Node Comments</title><script>'+SimpleClient+'</script><style>'+SimpleClientCSS+'</style><body><div id="nodecomments">Loading NodeComments</div></body></html>';
 
 var httpServer = http.createServer(function(req, res){
 
@@ -37,7 +37,7 @@ server.on('connection', function (socket){
 	Socket.onOpen(User,socket);
 
 	socket.on('message', function(data){ Socket.onData(socket,data); });
-	socket.on('close', function(data){ Socket.onClose(socket,data); });
+	socket.on('close', function(data){ Socket.onClose(User,socket,data); });
 });
 
 //important!! these events are setup to be able to scale across processes (node cluster) or servers via redis pubsub
@@ -63,7 +63,8 @@ var Socket = {
 			}
 		}
 	},
-	onClose:function(socket,data){
+	onClose:function(User,socket,data){
+		nodecomments.CloseUser(User)
 		console.log("closing");
 		console.dir(data)
 	}
