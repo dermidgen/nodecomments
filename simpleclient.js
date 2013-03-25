@@ -8,7 +8,11 @@ You need a way to turn that into nodecomments
 most of this code is borrowed from coplete.com
 */
 
-var socket,events = [],target = document.getElementById('nodecomments');
+var socket,
+events = [],
+Topics={},
+Callback = {},
+target = byID('nodecomments');
 
 function initSocket(){
 	if(window['WebSocket']){
@@ -50,9 +54,24 @@ var NodeComments = {
 				NodeComments.send(Submission);
 			}});
 
-		html({ID:'TopicList',Type:"div",HTML:"Getting Topics",AppendTo:"nodecomments"});
-
+		html({ID:'nodecommentsContent',Type:"div",HTML:"Getting Topics",AppendTo:"nodecomments"});
 		html({ID:"EventList",Type:"div",AppendTo:"nodecomments"});
+		NodeComments.view('Main')
+	},
+	view:function(view){
+		if(byID('nodecommentsContent').getAttribute('view') != 'view'){
+			html({ID:'nodecommentsContent',Attributes:{view:view},HTML:''});
+		}
+		if(view == 'Topic'){
+
+		} else {
+			//default view all topics
+			Callback.GetTopic = function(Topic){
+				html({ID:view+"Topic"+Topic.ID,Type:"div",Text:Topic.Title,AppendTo:"nodecommentsContent"})
+			}
+			NodeComments.send({do:"GetTopics"});
+		}
+
 	},
 	send:function(data){
 		socket.send(JSON.stringify(data));
@@ -64,8 +83,22 @@ var NodeComments = {
 	},
 	Events:function(data){
 		events.push(data);
+		console.log('events!');
 		var EventID = events.length;
-		html({ID:"Event"+EventID,Type:"div",Text:data.Event})
+		html({ID:"Event"+EventID,Type:"div",Text:'['+data.Event+'] '+data.Message,AppendTo:"EventList"})
+		if(data.doAction){
+			NodeComments.send(data.doAction);
+		}
+	},
+	GetTopic:function(data){
+		if(data.Topic){
+			if(data.Topic.ID){
+				Topics[data.Topic.ID] = data.Topic;
+				if(Callback[data.do]){
+					Callback[data.do](data.Topic);
+				}
+			}
+		}
 	}
 }
 

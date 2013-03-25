@@ -28,22 +28,28 @@ server = new ws({server: httpServer});
 server.on('connection', function (socket){
 	console.log("client connected");
 
-	//your server should figure out the user in your own way, for now we will just mimic a user. Most important element is the unique ID
+	//your server should figure out the user in your own way, for now we will just mimic a user.
+	//nodcomments depends on User.uid and User.name (unique id and display name)
 
 	var User = {uid:1001,name:"John Doe"};
 	socket.User = User;
 
-	Socket.onOpen(User.uid,socket);
+	Socket.onOpen(User,socket);
 
 	socket.on('message', function(data){ Socket.onData(socket,data); });
 	socket.on('close', function(data){ Socket.onClose(socket,data); });
 });
 
+//important!! these events are setup to be able to scale across processes (node cluster) or servers via redis pubsub
+nodecomments.Broadcast(function(data){
+	server.clients.forEach(function(socket){
+		socket.send(data)
+	})
+})
+
 var Socket = {
-	onOpen:function(uid,socket){
-		nodecomments.init(uid,function(data){
-			socket.send(JSON.stringify(data));
-		})
+	onOpen:function(User,socket){
+		nodecomments.InitUser(User)
 	},
 	onData:function(socket,data){
 		console.log("received");
@@ -51,7 +57,7 @@ var Socket = {
 		var data = JSON.parse(data);
 		if(data.do){
 			if(nodecomments[data.do]){
-				nodecomments[data.do](socket.User.uid,data,function(data){
+				nodecomments[data.do](socket.User,data,function(data){
 					socket.send(JSON.stringify(data));
 				});
 			}
